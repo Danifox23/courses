@@ -14,6 +14,21 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'view' => [
+            'class' => 'yii\web\View',
+            'renderers' => [
+                'twig' => [
+                    'class' => 'yii\twig\ViewRenderer',
+                    'cachePath' => '@runtime/Twig/cache',
+                    // Array of twig options:
+                    'options' => [
+                        'auto_reload' => true,
+                    ],
+                    'globals' => ['html' => '\yii\helpers\Html'],
+                    'uses' => ['yii\bootstrap'],
+                ],
+            ],
+        ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
@@ -43,9 +58,9 @@ $config = [
             'enablePrettyUrl' => true,
 //            'showScriptName' => false,
             'rules' => [
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 'learn/<id:\d+>' => 'learn/view',
-                'page/<page:\d+>' => 'learn/index',
-                '/' => 'learn/index'
+                'page/<page:\d+>' => 'learn/index'
             ],
         ],
 
@@ -63,6 +78,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'allowedIPs' => ['127.0.0.1', '::1', '192.168.*.*']
     ];
 }
 

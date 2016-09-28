@@ -1,27 +1,39 @@
 <?php
 
 namespace app\controllers;
+use Yii;
 use yii\data\Pagination;
 use yii\web\Controller;
-use app\models\Articles;
+use app\models\Product;
+use app\models\LearnForms;
 
 class LearnController extends Controller
 {
+    //public $layout = false;
+
     public function actionIndex()
     {
-        $query = Articles::find()->select('title, text');
+
+    }
+
+    public function actionProducts()
+    {
+        $test = 23;
+        $query = Product::find();
         $pages = new Pagination([
             'totalCount' => $query->count(),
-            'pageSize' => 1,
+            'pageSize' => 10,
             'pageSizeParam' => false,
             'forcePageParam' => false
         ]);
-        $articles = $query->offset($pages->offset)->limit($pages->limit)->all();
+
+        $products = $query->offset($pages->offset)->limit($pages->limit)->all();
 
         return $this->render(
-            'index', [
-                'articles' => $articles,
-                'pages' => $pages
+            'products.twig', [
+            'products' => $products,
+            'pages' => $pages,
+            'test' => $test,
         ]);
     }
 }
