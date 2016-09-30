@@ -14,9 +14,9 @@ class m160924_080927_create_order_table extends Migration
     {
         $this->createTable('{{%order}}', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer(10)->notNull(),
-            'total_price' => $this->float([10,2])->notNull(),
-            'status_id' => $this->integer(2)->notNull(),
+            'user_id' => $this->integer(11)->notNull(),
+            'total_price' => $this->float(10)->notNull(),
+            'status_id' => $this->integer(11)->notNull(),
         ], 'ENGINE=InnoDb DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT \'Таблица заказов\''
 
         );
@@ -24,6 +24,8 @@ class m160924_080927_create_order_table extends Migration
         $this->createIndex('order_user_id', '{{%order}}', 'user_id');
         $this->createIndex('order_status_id', '{{%order}}', 'status_id');
 
+        $this->addForeignKey('FK_order_status', '{{%order}}', 'status_id', '{{%status}}', 'id');
+        $this->addForeignKey('FK_order_user', '{{%order}}', 'user_id', '{{%user}}', 'id');
     }
 
     /**

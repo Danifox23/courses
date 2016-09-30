@@ -16,11 +16,11 @@ class m160924_080346_create_product_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string(255)->notNull(),
             'description' => $this->string(255)->notNull(),
-            'category_id' => $this->integer(2)->notNull(),
-            'purchase_price' => $this->float(255)->notNull(),
-            'price' => $this->float([10,2])->notNull(),
-            'order_id' => $this->integer(10)->notNull(),
-            'manufacturer_id' => $this->integer(10)->notNull(),
+            'category_id' => $this->integer(11)->notNull(),
+            'purchase_price' => $this->float(10)->notNull(),
+            'price' => $this->float(10)->notNull(),
+            'order_id' => $this->integer(11)->notNull(),
+            'manufacturer_id' => $this->integer(11)->notNull(),
         ], 'ENGINE=InnoDb DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT \'Таблица товаров\''
 
         );
@@ -28,6 +28,10 @@ class m160924_080346_create_product_table extends Migration
         $this->createIndex('product_category_id', '{{%product}}', 'category_id');
         $this->createIndex('product_order_id', '{{%product}}', 'order_id');
         $this->createIndex('product_manufacturer_id', '{{%product}}', 'manufacturer_id');
+
+        $this->addForeignKey('FK_product_category', '{{%product}}', 'category_id', '{{%category}}', 'id');
+        $this->addForeignKey('FK_product_order', '{{%product}}', 'order_id', '{{%order}}', 'id');
+        $this->addForeignKey('FK_product_manufacturer', '{{%product}}', 'manufacturer_id', '{{%manufacturer}}', 'id');
 
     }
 

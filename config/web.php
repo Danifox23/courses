@@ -56,11 +56,10 @@ $config = [
 
         'urlManager' => [
             'enablePrettyUrl' => true,
-//            'showScriptName' => false,
+            'showScriptName' => false,
             'rules' => [
                 '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 'learn/<id:\d+>' => 'learn/view',
-                'page/<page:\d+>' => 'learn/index'
             ],
         ],
 

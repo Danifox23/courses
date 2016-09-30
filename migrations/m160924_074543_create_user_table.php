@@ -21,6 +21,8 @@ class m160924_074543_create_user_table extends Migration
             'password' => $this->string(255)->notNull(),
             'balance' => $this->float(255),
             'access' => $this->integer(2),
+            'authKey'=> $this->string(255),
+            'accessToken' => $this->string(255),
         ], 'ENGINE=InnoDb DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT \'Таблица пользователей\''
 
         );
