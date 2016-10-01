@@ -58,8 +58,8 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-                'learn/<id:\d+>' => 'learn/view',
+                '<module>/<controller>/<action>' => '<module>/<controller>/<action>',
+                '<controller>/<action>' => '<controller>/<action>',
             ],
         ],
 
@@ -78,6 +78,11 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         'allowedIPs' => ['127.0.0.1', '::1', '192.168.*.*']
+    ];
+
+    $config['bootstrap'][] = 'admin';
+    $config['modules']['admin'] = [
+        'class' => 'app\modules\admin\Module',
     ];
 }
 
