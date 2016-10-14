@@ -6,30 +6,63 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Products';
+$this->title = 'Товары';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="col-md-12 product-index">
+    <div class="card">
+        <div class="header">
+            <h4 class="title"><?= Html::encode($this->title) ?></h4>
+            <p class="model-desc"></p>
+        </div>
+        <div class="content">
+            <div class="model-action-buttons">
+                <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success']) ?>
+            </div>
 
-    <p>
-        <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'tableOptions' => [
+                    'class' => 'table table-striped'],
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'name',
-            'description',
-            'category_id',
-            'purchase_price',
-             'price',
-             'manufacturer_id',
+                    'id',
+                    [
+                        'attribute'=>'name',
+                        'label'=>'Наименование',
+                    ],
+                    [
+                        'attribute'=>'description',
+                        'label'=>'Описание',
+                    ],
+                    [
+                        'attribute'=>'category_id',
+                        'label'=>'Категория',
+                        'format'=>'text', // Возможные варианты: raw, html
+                        'content'=>function($data){
+                            return $data->category->name;
+                        }
+                    ],
+                    [
+                        'attribute'=>'manufacturer_id',
+                        'label'=>'Производитель',
+//                        'format'=>'text', // Возможные варианты: raw, html
+                        'content'=>function($data){
+                            return $data->manufacturer->name;
+                        }
+                    ],
+                    [
+                        'attribute'=>'price',
+                        'label'=>'Описание',
+                    ],
+                    // 'image',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+
+        </div>
+    </div>
 </div>

@@ -15,9 +15,7 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
     public static function tableName()
     {
         return 'category';
@@ -52,6 +50,12 @@ class Category extends \yii\db\ActiveRecord
     public function getProducts()
     {
         return $this->hasMany(Product::className(), ['category_id' => 'id']);
+    }
+
+    public function getManufacturers()
+    {
+        return $this->hasMany(Manufacturer::className(), ['id' => 'manufacturer_id'])
+            ->viaTable(Product::tableName(), ['manufacturer_id' => 'id']);
     }
 
     /**

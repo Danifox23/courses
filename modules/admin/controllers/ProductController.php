@@ -3,11 +3,15 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\Product;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+
+use app\models\Product;
+use app\models\Category;
+
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -61,11 +65,22 @@ class ProductController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
+
+
     public function actionCreate()
     {
         $model = new Product();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if($model->image)
+            {
+                $path = Yii::getAlias('@webroot/upload/files').$model->image->baseName.'.'.$model->image->extension;
+                $model->image->saveAs($path);
+                $model->attachImage($path);
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -90,6 +105,15 @@ class ProductController extends Controller
             return $this->render('update', [
                 'model' => $model,
             ]);
+        }
+    }
+
+    public function actionUpdatem($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['/admin/category/view', 'id' => $model->category_id]);
         }
     }
 

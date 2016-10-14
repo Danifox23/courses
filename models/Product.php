@@ -14,17 +14,25 @@ use Yii;
  * @property double $purchase_price
  * @property double $price
  * @property integer $manufacturer_id
+ * @property string $image
  *
  * @property Position[] $positions
  * @property Position[] $positions0
- * @property Category $category
  * @property Manufacturer $manufacturer
+ * @property Category $category
  */
 class Product extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
+
+    public function behaviors()
+    {
+        return [
+            'image' => [
+                'class' => 'rico\yii2images\behaviors\ImageBehave',
+            ]
+        ];
+    }
+
     public static function tableName()
     {
         return 'product';
@@ -39,9 +47,9 @@ class Product extends \yii\db\ActiveRecord
             [['name', 'description', 'category_id', 'purchase_price', 'price', 'manufacturer_id'], 'required'],
             [['category_id', 'manufacturer_id'], 'integer'],
             [['purchase_price', 'price'], 'number'],
-            [['name', 'description'], 'string', 'max' => 255],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['name', 'description', 'image'], 'string', 'max' => 255],
             [['manufacturer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Manufacturer::className(), 'targetAttribute' => ['manufacturer_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
 
@@ -58,6 +66,7 @@ class Product extends \yii\db\ActiveRecord
             'purchase_price' => 'Purchase Price',
             'price' => 'Price',
             'manufacturer_id' => 'Manufacturer ID',
+            'image' => 'Image',
         ];
     }
 
@@ -66,7 +75,7 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getPositions()
     {
-        return $this->hasMany(Position::className(), ['order_id' => 'id']);
+        return $this->hasMany(Position::className(), ['product_id' => 'id']);
     }
 
     /**
@@ -74,15 +83,7 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getPositions0()
     {
-        return $this->hasMany(Position::className(), ['product_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+        return $this->hasMany(Position::className(), ['order_id' => 'id']);
     }
 
     /**
@@ -91,6 +92,14 @@ class Product extends \yii\db\ActiveRecord
     public function getManufacturer()
     {
         return $this->hasOne(Manufacturer::className(), ['id' => 'manufacturer_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**

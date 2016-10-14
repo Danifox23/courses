@@ -1,12 +1,14 @@
-<div class="admin-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
+<div class="col-lg-3 col-sm-6 product-card main-card">
+    <div class="card">
+        <div class="content">
+            <div class="row">
+                <div class="col-xs-5">
+                    <i class="fa fa-cubes product" aria-hidden="true"></i>
+                </div>
+                <div class="col-xs-7">
+                    <p class="text-right">Продукты<br><span class="card-num">5шт</span> </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -20,6 +20,7 @@ class m160924_080346_create_product_table extends Migration
             'purchase_price' => $this->float(10)->notNull(),
             'price' => $this->float(10)->notNull(),
             'manufacturer_id' => $this->integer(11)->notNull(),
+            'image' => $this->string(255),
         ], 'ENGINE=InnoDb DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT \'Таблица товаров\''
 
         );

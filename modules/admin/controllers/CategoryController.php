@@ -3,12 +3,15 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\models\Product;
-use app\models\Category;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Product;
+use app\models\Category;
+use app\models\Manufacturer;
+
 
 /**
  * CategoryController implements the CRUD actions for Category model.
@@ -50,15 +53,38 @@ class CategoryController extends Controller
      * @param integer $id
      * @return mixed
      */
+
+    public function actionModal()
+    {
+        $data = Yii::$app->request->post();
+        $product = Product::findOne($data['product_id']);
+
+        if ($product->load($data) && $product->validate()) {
+            return $this->redirect(['view', 'id' => $product->id]);
+        } else
+            {
+            if (Yii::$app->request->isAjax)
+            {
+                return $this->renderAjax('_form_product', [
+                    'model' => $product,
+                    'category_id' => $data['category_id'],
+                ]);
+            }
+        }
+    }
+
     public function actionView($id)
     {
         $model = $this->findModel($id);
         $products = $model->products;
-
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getProducts(),
+        ]);
 
         return $this->render('view', [
             'model' => $model,
             'products' => $products,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -96,12 +122,9 @@ class CategoryController extends Controller
         if ($model->load($post) && $model->validate()) {
             $post_products = null;
             foreach ($post['Product'] as $post_product) {
-                if(!isset($post_product['id']))
-                {
+                if (!isset($post_product['id'])) {
                     $product = new Product();
-                }
-                else
-                {
+                } else {
                     $product = Product::findOne($post_product['id']);
                 }
 

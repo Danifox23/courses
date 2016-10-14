@@ -4,38 +4,46 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Product */
+/* @var $model app\models\Product */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="col-md-12 product-view">
+    <div class="card">
+        <div class="header">
+            <h4 class="title"><?= Html::encode($this->title) ?></h4>
+            <p class="model-desc"></p>
+        </div>
+        <div class="content">
+            <div class="model-action-buttons">
+                <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to delete this item?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
+            </div>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+            <?= DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'category_id',
+                    'purchase_price',
+                    'price',
+                    'manufacturer_id',
+                    'image',
+                ],
+                'options' => ['class' => 'table table-striped']
+            ]) ?>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'description',
-            'category_id',
-            'purchase_price',
-            'price',
-            'manufacturer_id',
-        ],
-    ]) ?>
-
+        </div>
+    </div>
 </div>

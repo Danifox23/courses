@@ -17,6 +17,7 @@ class m160924_080927_create_order_table extends Migration
             'user_id' => $this->integer(11)->notNull(),
             'total_price' => $this->float(10)->notNull(),
             'status_id' => $this->integer(11)->notNull(),
+            'date' => $this->integer(11)->notNull(),
         ], 'ENGINE=InnoDb DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT \'Таблица заказов\''
 
         );

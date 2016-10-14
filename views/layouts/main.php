@@ -4,75 +4,148 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+use yii\bootstrap\Modal;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
+
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="en">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><?= Html::encode($this->title) ?></title>
+
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+</head><!--/head-->
+
 <body>
 <?php $this->beginBody() ?>
+<header id="header"><!--header-->
+    <?php if(Yii::$app->user->identity['access'] == 1): ?>
+        <div class="header_top"><!--header_top-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="contactinfo">
+                            <ul class="nav nav-pills">
+                                <li><a href="<?= Url::to(['/admin']) ?>"><i class="fa fa-tachometer" aria-hidden="true"></i> Админ-панель</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="admin-icons pull-right">
+                            <ul class="nav navbar-nav">
+                                <li><a href="<?= Url::to(['/admin/product']) ?>"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                <li><a href="<?= Url::to(['/admin/user']) ?>"><i class="fa fa-users" aria-hidden="true"></i></a></li>
+                                <li><a href="<?= Url::to(['/admin/category']) ?>"><i class="fa fa-bars" aria-hidden="true"></i></a></li>
+                                <li><a href="<?= Url::to(['/admin/manufacturer']) ?>"><i class="fa fa-glass" aria-hidden="true"></i></a></li>
+                                <li><a href="<?= Url::to(['/admin/order']) ?>"><i class="fa fa-money" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/header_top-->
+    <?php endif; ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
-    NavBar::end();
-    ?>
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo pull-left">
+                        <a href="<?= Url::home(); ?>"><?= Html::img("@web/images/home/logo.png") ?></a>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <?php if(!Yii::$app->user->isGuest): ?>
+                                <li><a href="<?= Url::to(['/site/logout']) ?>"><i class="fa fa-user"></i> Выход (<?= Yii::$app->user->identity['email'] ?>)</a></li>
+                            <?php endif; ?>
+                            <li><a href="<?= Url::to(['/cart/checkout']) ?>"><i class="fa fa-crosshairs"></i> Оформление заказа</a></li>
+                            <li><a href="<?= Url::to(['/cart']) ?>"><i class="fa fa-shopping-cart">
+                                    </i> Корзина <?= ($_SESSION['cart.quantity']) ? '<span class="cart_quantity_header">'. $_SESSION['cart.quantity'] .'</span>' : '' ?> </a></li>
+                            <li><a href="<?= Url::to(['/admin']) ?>"><i class="fa fa-lock"></i> Админка</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= $content ?>
-    </div>
+    <div class="header-bottom"><!--header-bottom-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <!--<div class="mainmenu pull-left">
+                        <ul class="nav navbar-nav collapse navbar-collapse">
+                            <li><a href="index.html" class="active">Home</a></li>
+                            <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="shop.html">Products</a></li>
+                                    <li><a href="product-details.html">Product Details</a></li>
+                                    <li><a href="checkout.html">Checkout</a></li>
+                                    <li><a href="cart.html">Cart</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="blog.html">Blog List</a></li>
+                                    <li><a href="blog-single.html">Blog Single</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="404.html">404</a></li>
+                            <li><a href="contact-us.html">Contact</a></li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div><!--/header-bottom-->
+</header><!--/header-->
+
+<?= $content ?>
+
+<!--<footer id="footer" class="navbar-fixed-bottom">-->
+<!---->
+<!--    <div class="footer-bottom">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>-->
+<!--                <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!---->
+<!--</footer>-->
+
+<div class="test">
+
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
 <?php $this->endBody() ?>
+<script id="dsq-count-scr" src="//crtshop.disqus.com/count.js" async></script>
 </body>
 </html>
 <?php $this->endPage() ?>
