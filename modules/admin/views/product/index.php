@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\StringHelper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -30,32 +31,36 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     'id',
                     [
-                        'attribute'=>'name',
-                        'label'=>'Наименование',
+                        'attribute' => 'name',
+                        'label' => 'Наименование',
                     ],
+//                    [
+//                        'attribute' => 'description',
+//                        'label' => 'Описание',
+//                        'content' => function ($data) {
+//                            StringHelper::truncate($data->description, 100);
+//                        }
+//
+//                    ],
                     [
-                        'attribute'=>'description',
-                        'label'=>'Описание',
-                    ],
-                    [
-                        'attribute'=>'category_id',
-                        'label'=>'Категория',
-                        'format'=>'text', // Возможные варианты: raw, html
-                        'content'=>function($data){
+                        'attribute' => 'category_id',
+                        'label' => 'Категория',
+                        'format' => 'text', // Возможные варианты: raw, html
+                        'content' => function ($data) {
                             return $data->category->name;
                         }
                     ],
                     [
-                        'attribute'=>'manufacturer_id',
-                        'label'=>'Производитель',
+                        'attribute' => 'manufacturer_id',
+                        'label' => 'Производитель',
 //                        'format'=>'text', // Возможные варианты: raw, html
-                        'content'=>function($data){
+                        'content' => function ($data) {
                             return $data->manufacturer->name;
                         }
                     ],
                     [
-                        'attribute'=>'price',
-                        'label'=>'Описание',
+                        'attribute' => 'price',
+                        'label' => 'Цена',
                     ],
                     // 'image',
 

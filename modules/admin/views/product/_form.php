@@ -14,7 +14,6 @@ use app\models\Manufacturer;
 ?>
 
 
-
 <div class="product-form">
 
     <?php $form = ActiveForm::begin([
@@ -23,16 +22,34 @@ use app\models\Manufacturer;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'id', 'name')) ?>
-
-    <?= $form->field($model, 'manufacturer_id')->dropDownList(ArrayHelper::map(Manufacturer::find()->all(), 'id', 'name')) ?>
-
-    <?= $form->field($model, 'purchase_price')->textInput() ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => 7, 'cols' => 5]) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
+    <hr>
+
+    <?= $form->field($model, 'category_id')->dropDownList(ArrayHelper::map(Category::find()->all(), 'id', 'name'), ['prompt' => 'Выберите категорию']) ?>
+
+    <?= $form->field($model, 'manufacturer_id')->dropDownList(ArrayHelper::map(Manufacturer::find()->all(), 'id', 'name'), ['prompt' => 'Выберите производителя']) ?>
+
+    <hr>
+
+<!--    --><?/*= $form->field($model, 'show_main', ['options' => ['style' => 'margin:35px 0px 40px 0px;'], 'template' => "<label for=\"cmn-toggle\">{label}</label><div class=\"switch\">{input}<label for=\"cmn-toggle\"></label></div>"])->checkbox([
+//        'value'=>0,
+        'class' => 'cmn-toggle cmn-toggle-round',
+        'label' => 'kjj',
+//        'uncheck' => 1,
+        'checked ' => $model->show_main == 1 ? true : false,
+    ], false) */?>
+
+
+    <?= $form->field($model, 'show_main')->checkbox([
+        'label' => 'Показывать на главной',
+    ]); ?>
+
+    <?= $form->field($model, 'sale')->checkbox([
+        'label' => 'Добавить лейбл "Sale"',
+    ]); ?>
 
     <?= $form->field($model, 'image')->fileInput() ?>
 

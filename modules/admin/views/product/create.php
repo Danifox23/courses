@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="col-md-4 product-create">
+<div class="col-md-8 product-create">
     <div class="card">
         <div class="header">
             <h4 class="title"><?= Html::encode($this->title) ?></h4>

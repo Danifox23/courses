@@ -1,5 +1,139 @@
+.switch {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 10px;
+}
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.cmn-toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+input.cmn-toggle-round + label {
+  padding: 2px;
+  width: 120px;
+  height: 60px;
+  background-color: #dddddd;
+  border-radius: 60px;
+}
+input.cmn-toggle-round + label:before,
+input.cmn-toggle-round + label:after {
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  content: "";
+}
+input.cmn-toggle-round + label:before {
+  right: 1px;
+  background-color: #f1f1f1;
+  border-radius: 60px;
+  transition: background 0.4s;
+}
+input.cmn-toggle-round + label:after {
+  width: 58px;
+  background-color: #fff;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: margin 0.4s;
+}
+input.cmn-toggle-round:checked + label:before {
+  background-color: #8ce196;
+}
+input.cmn-toggle-round:checked + label:after {
+  margin-left: 60px;
+}
+
+
+
+
+.card-link a {
+  color: rgba(0,0,0,.5);
+}
+.card-link i {
+  padding-right: 5px;
+  color: rgba(0,0,0,.3);
+}
+
+.period-picker p{
+  font-size: 14px!important;
+  color: rgba(0,0,0,.5);
+  font-weight: 700;
+}
+
+.period-picker span {
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.period-picker span.active-interval {
+  font-weight: 600;
+  color: #F3BB45;
+}
+
+.table-actions i {
+  color: rgba(0,0,0,.3);
+  cursor: pointer;
+  display: block;
+}
+
+/* общие стили для лент */
+.corner-ribbon{
+  width: 200px;
+  background: #e43;
+  position: absolute;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+/* фиксируем ленточки */
+.corner-ribbon.sticky{
+  position: fixed;
+}
+/* легкая тень */
+.corner-ribbon.shadow{
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+/* позиции лент */
+.corner-ribbon.top-left{ /* верхний угол слева */
+  top: 25px;
+  left: -50px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+.corner-ribbon.top-right{ /* верхний угол справа */
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+
+.mgb-20 {
+  margin-bottom: 20px;
+}
+
 sup {
   color: #EF4836;
+}
+
+hr {
+    border-color: rgba(0,0,0,.08);
+  margin: 20px 0;
 }
 
 .breadcrumb {
@@ -303,10 +437,6 @@ button:focus {
 
 .margin-top {
   margin-top: 50px;
-}
-
-hr {
-  border-color: #F1EAE0;
 }
 
 .wrapper {

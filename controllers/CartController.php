@@ -27,24 +27,20 @@ class CartController extends AppController
         $order = new Order();
         $user = User::findOne(Yii::$app->user->id);
 
-        if($order->load(Yii::$app->request->post()))
-        {
+        if ($order->load(Yii::$app->request->post())) {
             $order->quantity = $session['cart.quantity'];
             $order->total = $session['cart.total'];
             $order->status_id = 1;
             $order->user_id = $user->id;
 
-            if($order->save())
-            {
+            if ($order->save()) {
                 $this->orderPosition($session['cart'], $order->id);
                 Yii::$app->session->setFlash('success', 'Заказ успешно оформлен!');
                 $session->remove('cart');
                 $session->remove('cart.quantity');
                 $session->remove('cart.total');
                 return $this->refresh();
-            }
-            else
-            {
+            } else {
                 Yii::$app->session->setFlash('error', 'Ошибка');
             }
         }
@@ -52,15 +48,14 @@ class CartController extends AppController
         $this->metaConstruct('CrtShop | Оформление заказа');
 
         return $this->render('checkout', [
-            'session'   => $session,
-            'order'     => $order,
+            'session' => $session,
+            'order' => $order,
         ]);
     }
 
     public function orderPosition($session, $order_id)
     {
-        foreach ($session as $id => $position)
-        {
+        foreach ($session as $id => $position) {
             $order_position = new Position();
 
             $order_position->order_id = $order_id;
@@ -77,8 +72,7 @@ class CartController extends AppController
     {
         $id = Yii::$app->request->get('id');
         $quantity = Yii::$app->request->get('quantity');
-        if(!$quantity)
-        {
+        if (!$quantity) {
             $quantity = 1;
         }
 
@@ -133,3 +127,4 @@ class CartController extends AppController
         ]);
     }
 }
+

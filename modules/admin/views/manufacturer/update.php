@@ -3,19 +3,26 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\Manufacturer */
+/* @var $model app\models\Manufacturer */
 
-$this->title = 'Update Manufacturer: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Manufacturers', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Производители', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="manufacturer-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="col-md-4 category-view">
+    <div class="card">
+        <div class="header">
+            <h4 class="title"><?= Html::encode($this->title) ?></h4>
+            <p class="model-desc"></p>
+        </div>
+        <div class="content">
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+            <?= $this->render('_form', [
+                'model' => $model,
+            ]) ?>
 
+        </div>
+    </div>
 </div>

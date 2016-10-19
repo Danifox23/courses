@@ -6,25 +6,35 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Manufacturers';
+$this->title = 'Производители';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="manufacturer-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="col-md-4 category-index">
+    <div class="card">
+        <div class="header">
+            <h4 class="title"><?= Html::encode($this->title) ?></h4>
+            <p class="model-desc"></p>
+        </div>
+        <div class="content">
+            <div class="model-action-buttons">
+                <?= Html::a('Добавить производителя', ['create'], ['class' => 'btn btn-success']) ?>
+            </div>
 
-    <p>
-        <?= Html::a('Create Manufacturer', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'tableOptions' => [
+                    'class' => 'table table-striped'],
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'name',
+                    'id',
+                    'name',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+
+        </div>
+    </div>
 </div>

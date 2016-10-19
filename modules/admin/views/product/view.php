@@ -4,14 +4,25 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Product */
+
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="col-md-12 product-view">
+<div class="col-md-4">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">Изображение</h4>
+            <p class="model-desc"></p>
+        </div>
+        <div class="content">
+<!--            --><?php //echo $model->getImage(); ?>
+        </div>
+    </div>
+</div>
+<div class="col-md-8 product-view">
     <div class="card">
         <div class="header">
             <h4 class="title"><?= Html::encode($this->title) ?></h4>
@@ -35,11 +46,24 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'name',
                     'description',
-                    'category_id',
+                    [
+                        'attribute' => 'category_id',
+                        'value' => $model->category->name,
+                    ],
                     'purchase_price',
                     'price',
-                    'manufacturer_id',
-                    'image',
+                    [
+                        'attribute' => 'manufacturer_id',
+                        'value' => $model->manufacturer->name,
+                    ],
+                    [
+                        'attribute' => 'show_main',
+                        'value' => $model->show_main == 1 ? 'Да' : 'Нет',
+                    ],
+                    [
+                        'attribute' => 'sale',
+                        'value' => $model->sale == 1 ? 'Да' : 'Нет',
+                    ],
                 ],
                 'options' => ['class' => 'table table-striped']
             ]) ?>

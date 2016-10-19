@@ -12,7 +12,6 @@ use yii\web\UploadedFile;
 use app\models\Product;
 use app\models\Category;
 
-
 /**
  * ProductController implements the CRUD actions for Product model.
  */
@@ -21,17 +20,17 @@ class ProductController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+//    public function behaviors()
+//    {
+//        return [
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'delete' => ['POST'],
+//                ],
+//            ],
+//        ];
+//    }
 
     /**
      * Lists all Product models.
@@ -67,20 +66,20 @@ class ProductController extends Controller
      */
 
 
-
     public function actionCreate()
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
 
+            $model->date = time();
             $model->image = UploadedFile::getInstance($model, 'image');
-            if($model->image)
-            {
-                $path = Yii::getAlias('@webroot/upload/files').$model->image->baseName.'.'.$model->image->extension;
+            if ($model->image) {
+                $path = Yii::getAlias('@webroot/upload/store') . $model->image->baseName . '.' . $model->image->extension;
                 $model->image->saveAs($path);
-                $model->attachImage($path);
+//                $model->attachImage($path);
             }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -89,17 +88,23 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Product model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image) {
+                $path = Yii::getAlias('@webroot/upload/store/') . $model->image->baseName . '.' . $model->image->extension;
+                $model->image->saveAs($path);
+                $model->attachImage($path);
+            }
+//            echo "<pre>";
+//            print_r($model);
+//            echo "</pre>";
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

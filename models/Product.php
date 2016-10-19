@@ -4,25 +4,11 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "product".
- *
- * @property integer $id
- * @property string $name
- * @property string $description
- * @property integer $category_id
- * @property double $purchase_price
- * @property double $price
- * @property integer $manufacturer_id
- * @property string $image
- *
- * @property Position[] $positions
- * @property Position[] $positions0
- * @property Manufacturer $manufacturer
- * @property Category $category
- */
+
 class Product extends \yii\db\ActiveRecord
 {
+
+    public $image;
 
     public function behaviors()
     {
@@ -44,10 +30,12 @@ class Product extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'category_id', 'purchase_price', 'price', 'manufacturer_id'], 'required'],
+            [['name', 'description', 'category_id', 'price', 'manufacturer_id'], 'required'],
             [['category_id', 'manufacturer_id'], 'integer'],
-            [['purchase_price', 'price'], 'number'],
+            [['price'], 'number'],
+            [['sale', 'show_main', 'date'], 'integer'],
             [['name', 'description', 'image'], 'string', 'max' => 255],
+            [['image'], 'file', 'extensions' => 'png, jpg'],
             [['manufacturer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Manufacturer::className(), 'targetAttribute' => ['manufacturer_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
@@ -60,13 +48,13 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'category_id' => 'Category ID',
+            'name' => 'Наименование',
+            'description' => 'Описание',
+            'category_id' => 'Категория',
             'purchase_price' => 'Purchase Price',
-            'price' => 'Price',
-            'manufacturer_id' => 'Manufacturer ID',
-            'image' => 'Image',
+            'price' => 'Цена',
+            'manufacturer_id' => 'Производитель',
+            'image' => 'Изображение',
         ];
     }
 
@@ -102,12 +90,23 @@ class Product extends \yii\db\ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
-    /**
-     * @inheritdoc
-     * @return ProductQuery the active query used by this AR class.
-     */
+
     public static function find()
     {
         return new ProductQuery(get_called_class());
+    }
+
+    public function upload()
+    {
+        if($this->validate())
+        {
+            $path = 'upload/store/' . $this->image->baseName . '.' . $this->image->extension;
+            $this->image->saveAs($path);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
