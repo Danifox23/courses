@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\models\Product;
+
 /* @var $this yii\web\View */
 
 
@@ -18,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <p class="model-desc"></p>
         </div>
         <div class="content">
-<!--            --><?php //echo $model->getImage(); ?>
+            <?= Html::img('@web/'.$model->getImage()->getPath('1000x3000'));?>
         </div>
     </div>
 </div>

@@ -22,8 +22,6 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $cur_time = time();
-
         $products = Product::find()->all();
         $orders = Order::find()->all();
         $users = User::find()->all();
@@ -31,9 +29,9 @@ class DefaultController extends Controller
         $show_main = Product::find()->select('id, name, category_id, price')->where('show_main = 1')->all();
 
         return $this->render('index', [
-            'products' => $products,
-            'orders' => $orders,
-            'users' => $users,
+            'products'  => $products,
+            'orders'    => $orders,
+            'users'     => $users,
             'show_main' => $show_main,
         ]);
     }
@@ -44,11 +42,11 @@ class DefaultController extends Controller
             $period = Yii::$app->request->post('period');
             $rightTime = time();
             $leftTime = [
-                'all' => 0,
-                'year' => $rightTime - 31556926,
+                'all'   => 0,
+                'year'  => $rightTime - 31556926,
                 'month' => $rightTime - 2629743,
-                'week' => $rightTime - 604800,
-                'day' => $rightTime - 86400,
+                'week'  => $rightTime - 604800,
+                'day'   => $rightTime - 86400,
             ];
 
             $products = Product::find()->where('date >= :leftTime and date <= :rightTime', [':leftTime' => $leftTime[$period], ':rightTime' => $rightTime])->all();
@@ -57,9 +55,9 @@ class DefaultController extends Controller
 
             $this->layout = false;
             return $this->render('main_info_period', [
-                'products' => $products,
-                'orders' => $orders,
-                'users' => $users,
+                'products'  => $products,
+                'orders'    => $orders,
+                'users'     => $users,
             ]);
         }
         return false;
@@ -69,6 +67,7 @@ class DefaultController extends Controller
     {
         //Удаление из списка показываемых на главной
         if (Yii::$app->request->post('product_id')) {
+
             $product_id = Yii::$app->request->post('product_id');
             $product = Product::find()->where('id = :id', [':id' => $product_id])->one();
             $product->show_main = 0;

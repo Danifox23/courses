@@ -48,7 +48,8 @@ $('.period-picker span').bind('click', function () {
 });
 
 
-$('.delete-from-main').bind('click', function () {
+// $('.delete-from-main').bind('click', function () {
+$(document).on('click', '.delete-from-main', function () {
     // $('.products-on-main .content').html('<i class="fa fa-circle-o-notch fa-spin fa-fw center-block"></i>');
     $product_id = $(this).data('product-id');
 

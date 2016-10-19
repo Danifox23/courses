@@ -54,8 +54,11 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $image = $model->getImage();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'image' => $image,
         ]);
     }
 
@@ -100,6 +103,8 @@ class ProductController extends Controller
                 $path = Yii::getAlias('@webroot/upload/store/') . $model->image->baseName . '.' . $model->image->extension;
                 $model->image->saveAs($path);
                 $model->attachImage($path);
+//                $model->getImage();
+//                die();
             }
 //            echo "<pre>";
 //            print_r($model);
