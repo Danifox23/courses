@@ -123,17 +123,25 @@ use yii\helpers\Url;
                                         <?= Html::img("@web/images/home/sale.png", ['class' => 'new']) ?>
                                     <?php endif; ?>
                                 </div>
-                                <!--                                <div class="choose">-->
-                                <!--                                    <ul class="nav nav-pills nav-justified">-->
-                                <!--                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>-->
-                                <!--                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>-->
-                                <!--                                    </ul>-->
-                                <!--                                </div>-->
                             </div>
                         </div>
                     <?php endforeach; ?>
                     <?php endif; ?>
                 </div><!--features_items-->
+
+                <div class="blog-on-main"><!--features_items-->
+                    <h2 class="title">Последние записи в блоге</h2>
+                    <?php foreach ($blog as $article): ?>
+                        <div class="col-md-2">
+                            <?= Html::img('@web/'.$article->getImage()->getPathToOrigin(), ['class' => 'img-responsive']);?>
+                        </div>
+                        <div class="col-md-10">
+                            <h4><?= $article->name ?></h4>
+                            <p><?= substr($article->text, 0, 250) . '...' ?></p>
+                            <a href="<?= Url::to(['article', 'id' => $article->id]) ?>" class="btn btn-xs btn-primary">Читать</a>
+                        </div>
+                    <?php endforeach; ?>
+                </div><!--blog-->
 
 
             </div>

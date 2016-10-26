@@ -26,7 +26,7 @@ class ManufacturerController extends AppController
         $query = Product::find()->where(['manufacturer_id' => $id]);
         $pages = new Pagination([
             'totalCount' => $query->count(),
-            'pageSize' => 3,
+            'pageSize' => 9,
             'forcePageParam' => false,
             'pageSizeParam' => false,
         ]);

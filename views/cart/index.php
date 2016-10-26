@@ -65,14 +65,14 @@ use yii\widgets\ActiveForm;
                             </tbody>
                         </table>
 
-                        <div class="coupon col-md-3">
+                        <!--<div class="coupon col-md-3">
                             <?php $form = ActiveForm::begin(['id' => 'coupon-form']) ?>
                             <?= $form->field($coupon, 'name')->label('Есть купон?') ?>
                             <?= Html::submitButton('Применить купон', ['class' => 'btn btn-default']) ?>
                             <?php ActiveForm::end() ?>
-                        </div>
+                        </div> -->
 
-                        <div class="cart-info col-md-9 text-right">
+                        <div class="cart-info col-md-12 text-right">
                             <h2>Итого: <?= $session['cart.total'] ?></h2>
                             <p class="small"><?= $session['cart.quantity'] ?> позиций</p>
                         </div>

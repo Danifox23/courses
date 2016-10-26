@@ -122,8 +122,8 @@ use yii\helpers\Url;
                             </div>
                             <div class="col-xs-7">
                                 <div class="numbers">
-                                    <p>Пользователи</p>
-                                    <span><?= count($orders) ?></span>
+                                    <p>Блог</p>
+                                    <span><?= count($blog) ?></span>
                                 </div>
                             </div>
                         </div>
@@ -131,9 +131,9 @@ use yii\helpers\Url;
                             <hr>
                             <div class="card-link">
                                 <i class="fa fa-external-link" aria-hidden="true"></i><a
-                                    href="<?= Url::to(['order/']) ?>"
+                                    href="<?= Url::to(['blog/']) ?>"
                                     class="text-muted-low">Перейти в
-                                    заказы</a>
+                                    блог</a>
                             </div>
                         </div>
                     </div>

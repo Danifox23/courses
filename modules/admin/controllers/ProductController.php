@@ -85,6 +85,7 @@ class ProductController extends Controller
                 'model' => $model,
             ]);
         }
+        return true;
     }
 
 

@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use app\models\Product;
 use app\models\Order;
 use app\models\User;
+use app\models\Blog;
 
 /**
  * Default controller for the `admin` module
@@ -52,12 +53,14 @@ class DefaultController extends Controller
             $products = Product::find()->where('date >= :leftTime and date <= :rightTime', [':leftTime' => $leftTime[$period], ':rightTime' => $rightTime])->all();
             $orders = Order::find()->where('date >= :leftTime and date <= :rightTime', [':leftTime' => $leftTime[$period], ':rightTime' => $rightTime])->all();
             $users = User::find()->where('reg_date >= :leftTime and reg_date <= :rightTime', [':leftTime' => $leftTime[$period], ':rightTime' => $rightTime])->all();
+            $blog = Blog::find()->where('date >= :leftTime and date <= :rightTime', [':leftTime' => $leftTime[$period], ':rightTime' => $rightTime])->all();
 
             $this->layout = false;
             return $this->render('main_info_period', [
                 'products'  => $products,
                 'orders'    => $orders,
                 'users'     => $users,
+                'blog'      => $blog,
             ]);
         }
         return false;
