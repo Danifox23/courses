@@ -43,7 +43,7 @@ use yii\helpers\Url;
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
                                         <div class="productinfo text-center">
-                                            <?= Html::img("@web/images/products/{$product->image}", ['alt' => $product->name]) ?>
+                                            <?= Html::img('@web/'.$product->getImage()->getPath('280x250'), ['alt' => $product->name]) ?>
                                             <h2>$<?= $product->price ?></h2>
                                             <p><a href="<?= Url::to(['product/view', 'id' => $product->id]) ?>"><?= $product->name ?></a></p>
                                             <a href="<?= Url::to(['cart/add', 'id' => $product->id]) ?>" data-id="<?= $product->id ?>" class="btn btn-default add-to-cart">
@@ -52,12 +52,6 @@ use yii\helpers\Url;
                                         <?php if ($product->sale == 1): ?>
                                             <?= Html::img("@web/images/home/sale.png", ['class' => 'new']) ?>
                                         <?php endif; ?>
-                                    </div>
-                                    <div class="choose">
-                                        <ul class="nav nav-pills nav-justified">
-                                            <li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                                            <li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>

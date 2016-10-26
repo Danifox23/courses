@@ -73,10 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => 'Наименование',
                     ],
                     [
-                        'attribute' => 'description',
-                        'label' => 'Описание',
-                    ],
-                    [
                         'attribute' => 'manufacturer_id',
                         'label' => 'Производитель',
                         'format' => 'text', // Возможные варианты: raw, html
@@ -97,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return \yii\helpers\Url::to(['product/' . $action, 'id' => $data->id]);
                         }
                     ],
-                    [
+                   /* [
                         'label' => '',
                         'format' => 'raw',
                         'value' => function ($data) {
@@ -112,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ]
                             );
                         }
-                    ],
+                    ],*/
                 ],
             ]); ?>
 

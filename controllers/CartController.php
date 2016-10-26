@@ -14,7 +14,7 @@ use app\models\Cart;
 use app\models\Order;
 use app\models\Position;
 use app\models\User;
-use yii\base\Response;
+use app\models\Coupon;
 
 
 class CartController extends AppController
@@ -87,7 +87,6 @@ class CartController extends AppController
         $cart = new Cart();
         $cart->addToCart($product, $quantity);
 
-//        return $_SESSION['cart.quantity'];
         return true;
     }
 
@@ -109,12 +108,53 @@ class CartController extends AppController
         $session = Yii::$app->session;
         $session->open();
 
+        $session->remove(['cart'][$id]);
+
         $cart = new Cart();
         $cart->refresh($id);
 
-        return $this->render('index', [
+        $this->layout = false;
+        return $this->render('cart_table', [
             'session' => $session,
         ]);
+    }
+
+    public function actionQuantityUp()
+    {
+        $id = Yii::$app->request->post('position_id');
+
+        $session = Yii::$app->session;
+        $session->open();
+
+        $cart = new Cart();
+        $cart->quantityRefresh($id, 'plus');
+
+        $this->layout = false;
+        return $this->render('cart_table', [
+            'session' => $session,
+        ]);
+    }
+
+    public function actionQuantityDown()
+    {
+        $id = Yii::$app->request->post('position_id');
+
+        $session = Yii::$app->session;
+        $session->open();
+
+        $cart = new Cart();
+
+        if($cart->quantityRefresh($id, 'minus'))
+        {
+            $this->layout = false;
+            return $this->render('cart_table', [
+                'session' => $session,
+            ]);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public function actionIndex()
@@ -122,8 +162,15 @@ class CartController extends AppController
         $session = Yii::$app->session;
         $session->open();
 
+        $coupon = new Coupon();
+
+        if ($coupon->load(Yii::$app->request->post())) {
+
+        }
+
         return $this->render('index', [
             'session' => $session,
+            'coupon' => $coupon,
         ]);
     }
 }

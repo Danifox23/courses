@@ -59,6 +59,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     ],
                     [
+                        'attribute'=>'date',
+                        'format'=>'text',
+                        'content'=>function($data){
+                            return '<span data-toggle="tooltip" title="'. date('H:i:s',$data->date) .'">'. date('d-m-Y',$data->date) .'</span>';
+                        }
+                    ],
+                    [
                         'attribute' => 'price',
                         'label' => 'Цена',
                     ],

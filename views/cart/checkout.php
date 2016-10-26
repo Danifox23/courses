@@ -32,10 +32,6 @@ use yii\widgets\ActiveForm;
 
                 </div>
 
-                <div class="col-md-5">
-                    <h4>Есть купон?</h4>
-                </div>
-
             <?php else: ?>
                 <div class="cart-empty col-md-12">
                     <h3>Нечего оформлять</h3>

@@ -17,7 +17,7 @@ class CategoryController extends AppController
 {
     public function actionIndex()
     {
-        $show_main_products = Product::find()->where(['show_main' => 1])->limit(6)->all();
+        $show_main_products = Product::find()->where(['show_main' => 1])->limit(9)->all();
 
         $this->metaConstruct('Crtshop');
 

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 
 class Product extends \yii\db\ActiveRecord
@@ -34,7 +35,8 @@ class Product extends \yii\db\ActiveRecord
             [['category_id', 'manufacturer_id'], 'integer'],
             [['price'], 'number'],
             [['sale', 'show_main', 'date'], 'integer'],
-            [['name', 'description', 'image'], 'string', 'max' => 255],
+            [['name', 'image'], 'string', 'max' => 255],
+            [['description'], 'string'],
             [['image'], 'file', 'extensions' => 'png, jpg'],
             [['manufacturer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Manufacturer::className(), 'targetAttribute' => ['manufacturer_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
@@ -55,6 +57,7 @@ class Product extends \yii\db\ActiveRecord
             'price' => 'Цена',
             'manufacturer_id' => 'Производитель',
             'image' => 'Изображение',
+            'date' => 'Дата',
         ];
     }
 
@@ -96,17 +99,14 @@ class Product extends \yii\db\ActiveRecord
         return new ProductQuery(get_called_class());
     }
 
-    public function upload()
-    {
-        if($this->validate())
-        {
-            $path = 'upload/store/' . $this->image->baseName . '.' . $this->image->extension;
+    public function afterSave($insert, $changedAttributes){
+        parent::afterSave($insert, $changedAttributes);
+
+        $this->image = UploadedFile::getInstance($this, 'image');
+        if ($this->image) {
+            $path = Yii::getAlias('@webroot/upload/store/') . $this->image->baseName . '.' . $this->image->extension;
             $this->image->saveAs($path);
-            return true;
-        }
-        else
-        {
-            return false;
+            $this->attachImage($path);
         }
     }
 }

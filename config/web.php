@@ -15,11 +15,12 @@ $config = [
             'imagesStorePath' => 'upload/store', //path to origin images
             'imagesCachePath' => 'upload/cache', //path to resized copies
             'graphicsLibrary' => 'GD', //but really its better to use 'Imagick'
-            'placeHolderPath' => '@webroot/upload/store/no-image.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
+            'placeHolderPath' => 'upload/store/no-image.png', // if you want to get placeholder when image not exists, string will be processed by Yii::getAlias
         ],
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],
+        'redactor' => 'yii\redactor\RedactorModule',
     ],
     'components' => [
         'request' => [

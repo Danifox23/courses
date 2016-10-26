@@ -38,7 +38,7 @@ use yii\helpers\Url;
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <?= Html::img("@web/images/products/{$product->image}", ['alt' => $product->name]) ?>
+                            <?= Html::img('@web/'.$product->getImage()->getPathtoOrigin(), ['alt' => $product->name, 'class' => 'img-responsive']) ?>
                         </div>
 
                     </div>

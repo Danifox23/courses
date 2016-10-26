@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <p class="model-desc"></p>
         </div>
         <div class="content">
-            <?= Html::img('@web/'.$model->getImage()->getPath('1000x3000'));?>
+            <?= Html::img('@web/'.$model->getImage()->getPathToOrigin(), ['class' => 'img-responsive']);?>
         </div>
     </div>
 </div>
@@ -57,6 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'manufacturer_id',
                         'value' => $model->manufacturer->name,
+                    ],
+                    [
+                        'attribute' => 'date',
+                        'value' => date('d-m-Y (H:i:s)',$model->date),
                     ],
                     [
                         'attribute' => 'show_main',

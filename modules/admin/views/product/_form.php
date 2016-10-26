@@ -51,6 +51,10 @@ use app\models\Manufacturer;
         'label' => 'Добавить лейбл "Sale"',
     ]); ?>
 
+    <?php if($model->getImage()): ?>
+        <?= Html::img('@web/'.$model->getImage()->getPath('80x80'), ['alt' => $model->name, 'class' => 'img-circle']) ?>
+    <?php endif; ?>
+
     <?= $form->field($model, 'image')->fileInput() ?>
 
     <div class="form-group">

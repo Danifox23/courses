@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\Product;
+use yii\widgets\ActiveForm;
 
 ?>
 
@@ -9,7 +11,7 @@ use yii\helpers\Url;
     <div class="container">
         <div class="row">
             <h2 class="title">Корзина</h2>
-            <div class="col-md-12 for-empty">
+            <div class="col-md-12 ajax-cart">
                 <?php if (!empty($_SESSION['cart'])): ?>
                     <div class="cart_info">
                         <table class="table table-condensed">
@@ -28,7 +30,7 @@ use yii\helpers\Url;
                                 <tr>
                                     <td class="cart_product">
                                         <a href="<?= Url::to(['/products/view/', 'id' => $item['id']]) ?>">
-                                            <?= Html::img("@web/images/products/{$item['image']}", ['class' => 'cart-img']) ?>
+                                            <?= Html::img('@web/' . Product::findOne($item['id'])->getImage()->getPath('80x80'), ['alt' => $item->name, 'class' => 'cart-img']) ?>
                                         </a>
                                     </td>
                                     <td class="cart_description">
@@ -42,11 +44,13 @@ use yii\helpers\Url;
                                     </td>
                                     <td class="cart_quantity">
                                         <div class="cart_quantity_button">
-                                            <a class="cart_quantity_up" href=""> + </a>
+                                            <a class="cart_quantity_down" href="" data-position-id="<?= $item['id'] ?>">
+                                                - </a>
                                             <input class="cart_quantity_input" type="text" name="quantity"
                                                    value="<?= $item['quantity'] ?>"
                                                    autocomplete="off" size="2">
-                                            <a class="cart_quantity_down" href=""> - </a>
+                                            <a class="cart_quantity_up" href="" data-position-id="<?= $item['id'] ?>">
+                                                + </a>
                                         </div>
                                     </td>
                                     <td class="cart_total">
@@ -61,15 +65,24 @@ use yii\helpers\Url;
                             </tbody>
                         </table>
 
-                        <div class="cart-info col-md-12 text-right">
+                        <div class="coupon col-md-3">
+                            <?php $form = ActiveForm::begin(['id' => 'coupon-form']) ?>
+                            <?= $form->field($coupon, 'name')->label('Есть купон?') ?>
+                            <?= Html::submitButton('Применить купон', ['class' => 'btn btn-default']) ?>
+                            <?php ActiveForm::end() ?>
+                        </div>
+
+                        <div class="cart-info col-md-9 text-right">
                             <h2>Итого: <?= $session['cart.total'] ?></h2>
                             <p class="small"><?= $session['cart.quantity'] ?> позиций</p>
                         </div>
 
                         <div class="cart-action text-right col-md-12">
                             <button type="button" class="btn btn-default btn-lg clear-cart">Очистить корзину</button>
-                            <a href="<?= Url::to(['cart/checkout']) ?>" class="btn btn-primary btn-lg">Оформить заказ</a>
+                            <a href="<?= Url::to(['cart/checkout']) ?>" class="btn btn-primary btn-lg">Оформить
+                                заказ</a>
                         </div>
+
                     </div>
                 <?php else: ?>
                     <div class="cart-empty col-md-12">

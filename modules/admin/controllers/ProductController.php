@@ -44,6 +44,7 @@ class ProductController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
         ]);
     }
 
@@ -74,16 +75,11 @@ class ProductController extends Controller
         $model = new Product();
 
         if ($model->load(Yii::$app->request->post())) {
-
             $model->date = time();
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if ($model->image) {
-                $path = Yii::getAlias('@webroot/upload/store') . $model->image->baseName . '.' . $model->image->extension;
-                $model->image->saveAs($path);
-//                $model->attachImage($path);
+            if($model->save())
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -102,14 +98,9 @@ class ProductController extends Controller
             if ($model->image) {
                 $path = Yii::getAlias('@webroot/upload/store/') . $model->image->baseName . '.' . $model->image->extension;
                 $model->image->saveAs($path);
+                $model->removeImages();
                 $model->attachImage($path);
-//                $model->getImage();
-//                die();
             }
-//            echo "<pre>";
-//            print_r($model);
-//            echo "</pre>";
-
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
