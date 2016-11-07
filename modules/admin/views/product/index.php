@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="content">
             <div class="model-action-buttons">
                 <?= Html::a('Добавить товар', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Выгрузить из excel', ['import'], ['class' => 'btn btn-info']) ?>
             </div>
 
             <?= GridView::widget([

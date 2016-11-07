@@ -36,6 +36,14 @@ class ProductController extends Controller
      * Lists all Product models.
      * @return mixed
      */
+
+    public function actionImport()
+    {
+        return $this->render('create', [
+
+        ]);
+    }
+
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
