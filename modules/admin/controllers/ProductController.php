@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use PHPExcel_IOFactory;
 
 use app\models\Product;
 use app\models\Category;
@@ -39,7 +40,39 @@ class ProductController extends Controller
 
     public function actionImport()
     {
-        return $this->render('create', [
+        $inputFile = 'upload/products.xlsx';
+        try {
+            $inputFileType = PHPExcel_IOFactory::identify($inputFile);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFile);
+        } catch (\Exception $e) {
+            die('error');
+        }
+
+        $sheet = $objPHPExcel->getSheet(0);
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+
+        for ($row = 1; $row <= $highestRow; $row++) {
+            if($row == 1) continue;
+
+            $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+
+            $product = new Product();
+            $product->name = $rowData[0][0];
+            $product->description = $rowData[0][1];
+            $product->category_id = $rowData[0][2];
+            $product->manufacturer_id = $rowData[0][3];
+            $product->price = $rowData[0][4];
+            $product->date = $rowData[0][5];
+            $product->save();
+
+            print_r($product);
+        }
+
+        die('normalno');
+
+        return $this->render('import', [
 
         ]);
     }
@@ -52,7 +85,7 @@ class ProductController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]]
         ]);
     }
 
@@ -84,8 +117,7 @@ class ProductController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->date = time();
-            if($model->save())
-            {
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
