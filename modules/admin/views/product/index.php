@@ -12,6 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="col-md-12 product-index">
+    <?php if (Yii::$app->session->hasFlash('success')): ?>
+        <div class="alert alert-success"><?= Yii::$app->session->getFlash('success'); ?></div>
+    <?php endif; ?>
     <div class="card">
         <div class="header">
             <h4 class="title"><?= Html::encode($this->title) ?></h4>

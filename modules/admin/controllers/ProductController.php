@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use PHPExcel_IOFactory;
+use yii\base\DynamicModel;
 
 use app\models\Product;
 use app\models\Category;
@@ -40,40 +41,46 @@ class ProductController extends Controller
 
     public function actionImport()
     {
-        $inputFile = 'upload/products.xlsx';
-        try {
-            $inputFileType = PHPExcel_IOFactory::identify($inputFile);
-            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
-            $objPHPExcel = $objReader->load($inputFile);
-        } catch (\Exception $e) {
-            die('error');
+        $model = new DynamicModel(['file_to_import']);
+        $model->addRule(['file_to_import'], 'file', ['extensions' => 'xlsx']);
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $inputFile_i = UploadedFile::getInstance($model, 'file_to_import');
+            $inputFile = Yii::getAlias('@webroot/upload/') . $inputFile_i->baseName . '.' . $inputFile_i->extension;
+            $inputFile_i->saveAs($inputFile);
+
+            try {
+                $inputFileType = PHPExcel_IOFactory::identify($inputFile);
+                $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                $objPHPExcel = $objReader->load($inputFile);
+            } catch (\Exception $e) {
+                die('Произошла ошибка');
+            }
+
+            $sheet = $objPHPExcel->getSheet(0);
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
+
+            for ($row = 1; $row <= $highestRow; $row++) {
+                if ($row == 1) continue;
+
+                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+
+                $product = new Product();
+                $product->name = $rowData[0][0];
+                $product->description = $rowData[0][1];
+                $product->category_id = $rowData[0][2];
+                $product->manufacturer_id = $rowData[0][3];
+                $product->price = $rowData[0][4];
+                $product->date = $rowData[0][5];
+                $product->save();
+            }
+            Yii::$app->session->setFlash('success', 'Товары из таблицы успешно добавлены');
+            return $this->redirect(['index']);
         }
-
-        $sheet = $objPHPExcel->getSheet(0);
-        $highestRow = $sheet->getHighestRow();
-        $highestColumn = $sheet->getHighestColumn();
-
-        for ($row = 1; $row <= $highestRow; $row++) {
-            if($row == 1) continue;
-
-            $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
-
-            $product = new Product();
-            $product->name = $rowData[0][0];
-            $product->description = $rowData[0][1];
-            $product->category_id = $rowData[0][2];
-            $product->manufacturer_id = $rowData[0][3];
-            $product->price = $rowData[0][4];
-            $product->date = $rowData[0][5];
-            $product->save();
-
-            print_r($product);
-        }
-
-        die('normalno');
 
         return $this->render('import', [
-
+            'model' => $model,
         ]);
     }
 
